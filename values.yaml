@@ -247,10 +247,13 @@ postgresql:
   # Whether to deploy the stable/postgresql chart with this chart. If disabled, make sure PostgreSQL is available at the hostname below and credentials are configured below
   enabled: true
 
-  username: matrix
-  password: matrix
-  database: matrix
+  # Should be changed
+  auth:
+    username: matrix
+    password: matrix
+    database: matrix
 
+  # The following settings are for synapse
   # Set this if postgresql.enabled = false
   hostname: ""
   port: 5432
@@ -259,25 +262,24 @@ postgresql:
   ssl: false
   # See https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-PARAMKEYWORDS for documentation of these modes
   sslMode: prefer
+  # The settings for synapse end here TODO: MOVE THEM
 
   # Storage to allocate for stable/postgresql
   persistence:
     size: 8Gi
 
-  # If postgresql.enabled, stable/postgresql will run the scripts in templates/postgresql/initdb-configmap.yaml
-  # If using an external Postgres server, make sure to configure the database as specified at https://github.com/matrix-org/synapse/blob/master/docs/postgres.md
-  initdbScriptsConfigMap: "{{ .Release.Name }}-postgresql-initdb"
-
-  securityContext:
-    enabled: true
-    runAsUser: 1000
-    fsGroup: 1000
+  primary:
+    initdb:
+      # If postgresql.enabled, stable/postgresql will run the scripts in templates/postgresql/initdb-configmap.yaml
+      # If using an external Postgres server, make sure to configure the database as specified at https://github.com/matrix-org/synapse/blob/master/docs/postgres.md
+      scripts: 
+        - "{{ .Release.Name }}-postgresql-initdb"
 
 # Synapse Kubernetes resource settings
 synapse:
   image:
     repository: "matrixdotorg/synapse"
-    tag: v1.22.1
+    tag: v1.72.0
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -434,8 +436,8 @@ coturn:
     type: ClusterIP
 
   image:
-    repository: "instrumentisto/coturn"
-    tag: "4.5.1.3"
+    repository: "coturn/coturn"
+    tag: "4.6-alpine"
     pullPolicy: IfNotPresent
   replicaCount: 1
   resources: {}
@@ -461,7 +463,7 @@ mail:
     enabled: true
     image:
       repository: "devture/exim-relay"
-      tag: "4.93.1-r0"
+      tag: "4.95-r0-4"
       pullPolicy: IfNotPresent
     service:
       type: ClusterIP

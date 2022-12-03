@@ -26,10 +26,11 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
+      # TODO: Research context fix for newer synapse version
+      #securityContext:
+      #  runAsUser: 1000
+      #  runAsGroup: 1000
+      #  fsGroup: 1000
       # generate signing key only on fresh install
       {{- if .Release.IsInstall }}
       initContainers:
@@ -111,12 +112,13 @@ spec:
             {{- if .Values.synapse.probes.liveness }}
             {{- toYaml .Values.synapse.probes.liveness | nindent 12 }}
             {{- end }}
-          securityContext:
-            capabilities:
-              drop:
-                - ALL
-            readOnlyRootFilesystem: true
-            allowPrivilegeEscalation: false
+          # TODO: Research context fix for newer synapse version
+          #securityContext:
+          #  capabilities:
+          #    drop:
+          #      - ALL
+          #  readOnlyRootFilesystem: true
+          #  allowPrivilegeEscalation: false
           {{- with .Values.synapse.resources }}
           resources:
             {{- toYaml . | nindent 12 }}

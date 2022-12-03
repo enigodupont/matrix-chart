@@ -1,10 +1,10 @@
 apiVersion: v2
 name: matrix
 description: A Helm chart to deploy a Matrix homeserver stack into Kubernetes
-icon: "https://dacruz21.github.io/helm-charts/icons/matrix.svg"
-home: "https://github.com/dacruz21/matrix-chart"
+icon: "https://matrix.org/images/matrix-logo.svg"
+home: "https://github.com/enigodupont/matrix-chart"
 sources:
-  - "https://github.com/dacruz21/matrix-chart"
+  - "https://github.com/enigodupont/matrix-chart"
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -22,15 +22,15 @@ version: 2.8.0
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application.
-appVersion: 1.22.1
+appVersion: 1.72.0
 
 maintainers:
-  - name: "David Cruz"
-    email: "david@typokign.com"
-    url: "https://github.com/dacruz21/"
+  - name: "Juan Carlos Ramirez"
+    email: "juramir@protonmail.com"
+    url: "https://github.com/enigodupont/matrix-chart"
 
 dependencies:
   - name: postgresql
-    version: 8.0.0
-    repository: https://kubernetes-charts.storage.googleapis.com
+    version: 12.1.3
+    repository: https://charts.bitnami.com/bitnami
     condition: postgresql.enabled

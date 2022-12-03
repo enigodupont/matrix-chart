@@ -2,9 +2,14 @@
 
 A Helm chart for deploying a Matrix homeserver stack in Kubernetes.
 
+This is a fork of <https://github.com/dacruz21/matrix-chart>
+
 ## Features
 
 - Latest version of Synapse
+
+## Experimental Features
+
 - (Optional) Latest version of Riot Web
 - (Optional) Choice of lightweight Exim relay or external mail server for email notifications
 - (Optional) Coturn TURN server for VoIP calls
@@ -23,7 +28,11 @@ Choose one of the two options below to install the chart.
 
 ### Chart Repository (recommended)
 
-This chart is published to my Helm chart repository at https://dacruz21.github.io/helm-charts. To install this chart:
+This chart is published to my Helm chart repository on Dockerhub.
+
+<https://hub.docker.com/repository/docker/enigodupont/matrix>
+
+To install this chart:
 
 1. Create an empty chart to hold your configuration
 
@@ -36,9 +45,9 @@ This chart is published to my Helm chart repository at https://dacruz21.github.i
 
     ```yaml
     dependencies:
-      - name: matrix
+      - name: enigodupont/matrix
         version: 2.8.0
-        repository: https://dacruz21.github.io/helm-charts
+        repository: registry-1.docker.io
     ```
 
 1. Run `helm dependency update` to download the chart into the `charts/` directory.
@@ -52,17 +61,14 @@ This chart is published to my Helm chart repository at https://dacruz21.github.i
 You can also clone this repo directly and override the values.yaml provided. To do so, run the following commands:
 
 ```shell script
-git clone https://github.com/dacruz21/matrix-chart.git
+git clone https://github.com/enigodupont/matrix-chart
 cd matrix-chart
 helm dependency update
 helm install matrix .
 ```
 
 ## Security
-Helm currently [does not officially support chart signatures created by GPG keys stored on smartcards](https://github.com/helm/helm/issues/2843#issuecomment-379532906). This may change in the future, in which case I will start packaging this chart with the standard `.prov` signatures, but until then signatures must be verified manually.
 
-GPG signatures are available within the chart repo and can be found by appending `.gpg` to the end of the package URL. For example, the signature for v2.8.0 is available at https://dacruz21.github.io/helm-charts/matrix-2.8.0.tgz.gpg.
+There was an issue with the older security context settings with the latest version of Synapse.
 
-These GPG signatures are signed with the same PGP key that is used to sign commits in this Git repository. The key is available by searching for david@typokign.com on a public keyserver, or by downloading it from my website at https://typokign.com/key.gpg.
-
-If you find any security vulnerabilities in this Helm chart, please contact me by sending a PGP-encrypted email (encrypted to `F13C346C0DE56944`) to david@typokign.com. Vulnerabilities in upstream services should be reported to that service's developers.
+If you find any security vulnerabilities in this Helm chart, please create an issue in the related github.
